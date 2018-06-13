@@ -32,11 +32,11 @@ int main(int argc, char **argv){
             ajuda();
             break;
         case 1:
-            if(tam != 5){
+            if(tam != 4){
                 printf("Número incorreto de parametros para esta operação. \nUtilize './Viajante -h' ou './Viajante --help' para ajuda.\n");
                 return 0;
             }
-            gerar(argv[2], argv[3], argv[4]);
+            gerar(argv[2], argv[2], argv[3]);
             break;
         case 10:
             if(tam != 4){
