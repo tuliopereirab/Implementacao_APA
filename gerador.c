@@ -27,6 +27,7 @@ void gerar(char entI[], char entJ[], char arquivo[]){
                 matriz[x][y] = 0;
             }else{
                 matriz[x][y] = rand() % 500;
+                matriz[y][x] = matriz[x][y];
                 statusZero = rand() % 3;
 
                 /*if(statusZero == 1)
