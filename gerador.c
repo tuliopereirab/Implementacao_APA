@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 //EXTERNAS
 
 void gerar(char entI[], char entJ[], char arquivo[]){
-    int i, j, x, y;
+    int i, j, x, y, z;
     int status;
     int **matriz;
     int statusZero;
@@ -19,13 +20,18 @@ void gerar(char entI[], char entJ[], char arquivo[]){
     for(x=0; x<i; x++)
         matriz[x] = (int*)malloc(sizeof(int)*j);
 
+    srand((unsigned)time(NULL));  // copiado internet: https://www.cprogressivo.net/2013/03/Como-gerar-numeros-aleatorios-em-C-com-a-rand-srand-e-seed.html
     for(x=0; x<i; x++){
         for(y=0; y<j; y++){
-            matriz[x][y] = rand() % 1000;
-            statusZero = rand() % 3;
+            if(x == y){
+                matriz[x][y] = 0;
+            }else{
+                matriz[x][y] = rand() % 500;
+                statusZero = rand() % 3;
 
-            /*if(statusZero == 1)
-                matriz[x][y] = 0;*/
+                /*if(statusZero == 1)
+                    matriz[x][y] = 0;*/
+            }
         }
     }
 
