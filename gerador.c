@@ -8,6 +8,7 @@ void gerar(char entI[], char entJ[], char arquivo[]){
     int i, j, x, y;
     int status;
     int **matriz;
+    int statusZero;
     FILE *arq;
     i = atoi(entI);
     j = atoi(entJ);
@@ -21,6 +22,10 @@ void gerar(char entI[], char entJ[], char arquivo[]){
     for(x=0; x<i; x++){
         for(y=0; y<j; y++){
             matriz[x][y] = rand() % 1000;
+            statusZero = rand() % 3;
+
+            /*if(statusZero == 1)
+                matriz[x][y] = 0;*/
         }
     }
 
