@@ -110,7 +110,7 @@ void execGulosa(int atual, int vetVerif[], int valSolucao, char solucaoVertice[]
     strcat(solucaoVertice, valor);
     strcat(solucaoVertice, " ");
     //solucao[valSolucao].soma = soma;
-    printf(" %i", menorPos);
+    printf(" %i", menorPos);         // PROBLEMA, VER COMMIT
     if(statusSolucao == 1)       // encontrou uma solucao viável para o vertice atual
         if(verificaFinal(vetVerif) == 0)  // nao acabou
             execGulosa(menorPos, vetVerif, valSolucao, solucaoVertice);
