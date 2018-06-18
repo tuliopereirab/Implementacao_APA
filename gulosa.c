@@ -59,7 +59,8 @@ void gulosa(char arquivo[]){
         //printf("\tSOMA: %i", soma);
         printf("\n");
     }
-    printf("Numero de soluçõeo: %i\n", nSolucoes);
+    printf("------------------------------------\n");
+    printf("Numero de soluções: %i\n", nSolucoes);
     if(nSolucoes != 0){
         melhorSol = verifMelhorSolucao();
         mostrarSolucoes();
@@ -124,6 +125,8 @@ void execGulosa(int atual, int vetVerif[], int valSolucao, char solucaoVertice[]
             nSolucoes++;
             printf("\tSOLUCAO!");
         }
+    else
+        printf("\tsem solução!");
 }
 
 int verificaSolucao(int vetVerif[], int prox){
