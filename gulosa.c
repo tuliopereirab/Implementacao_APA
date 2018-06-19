@@ -31,6 +31,7 @@ int *vetVerifica;
 
 void gulosa(char arquivo[]){
     int x, y;
+
     //int *vetVerifica;
     char valor[10];
     int melhorSol;
@@ -49,9 +50,9 @@ void gulosa(char arquivo[]){
 
 
     for(x=0; x<i; x++){
-        printf("Foi for!\n");
+        //printf("Foi for! X = %i\tI = %i\n", x, i);
         zerarVet();
-        soma = 0;
+        //printf("Foi zerar!");
         printf("Solução partindo de %i: %i", x, x);
         //itoa(x,valor,10);
         sprintf(valor, "%i", x);
@@ -142,8 +143,8 @@ int verificaSolucao(int prox){
 
 
 void zerarVet(){
+    //printf("Entrou zerar");
     int x;
-    printf("Entrou zerar");
     for(x=0; x<i; x++)
         vetVerifica[x] = 0;
     soma = 0;
