@@ -36,31 +36,23 @@ void gulosa(char arquivo[]){
     char valor[10];
     int melhorSol;
     char *solucaoVertice;
-    solucaoVertice = malloc(sizeof(char)*5*i);
     matriz = lerArquivo(arquivo);
     i = retI();
     j = retJ();
+    solucaoVertice = malloc(sizeof(char)*5*i);
     vetVerifica = malloc(sizeof(int)*i);
     zerarVet();
     printf("Encontrando soluções...\n");
     printf("------------------------------------\n");
-    //solucao = (struct _solucao*)malloc(sizeof(struct _solucao)*i);
-    //for(x=0;x<i;x++)
-        //solucao[x].stringSolucao = malloc(sizeof(char)*5*i);
-
 
     for(x=0; x<i; x++){
-        //printf("Foi for! X = %i\tI = %i\n", x, i);
         zerarVet();
-        //printf("Foi zerar!");
         printf("Solução partindo de %i: %i", x, x);
-        //itoa(x,valor,10);
         sprintf(valor, "%i", x);
         strcpy(solucaoVertice, valor);
         strcat(solucaoVertice, " ");
         vetVerifica[x] = 1;
         execGulosa(x, x, solucaoVertice);
-        //printf("\tSOMA: %i", soma);
         printf("\n");
     }
     printf("------------------------------------\n");
@@ -113,8 +105,6 @@ void execGulosa(int atual, int valSolucao, char solucaoVertice[]){
     sprintf(valor, "%i", menorPos);
     strcat(solucaoVertice, valor);
     strcat(solucaoVertice, " ");
-    //solucao[valSolucao].soma = soma;
-            // PROBLEMA, VER COMMIT
     if(statusSolucao == 1){       // encontrou uma solucao viável para o vertice atual
         printf(" %i", menorPos);
         if(verificaFinal() == 0)  // nao acabou
@@ -143,7 +133,6 @@ int verificaSolucao(int prox){
 
 
 void zerarVet(){
-    //printf("Entrou zerar");
     int x;
     for(x=0; x<i; x++)
         vetVerifica[x] = 0;
