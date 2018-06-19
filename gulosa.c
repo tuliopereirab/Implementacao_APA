@@ -8,10 +8,10 @@ struct _solucao{
 };
 
 // INTERNAS
-void execGulosa(int atual, int vetVerif[], int valSolucao, char solucaoVertice[]);
-int verificaSolucao(int vetVerif[], int prox);
-int *zerarVet(int vetVerif[]);
-int verificaFinal(int vetVerif[]);
+void execGulosa(int atual, int valSolucao, char solucaoVertice[]);
+int verificaSolucao(int prox);
+void zerarVet();
+int verificaFinal();
 void mostrarSolucoes();
 int verifMelhorSolucao();
 // EXTERNAS
@@ -25,12 +25,13 @@ int i, j;
 int soma;
 struct _solucao *solucao;
 int nSolucoes=0;
+int *vetVerifica;
 
 
 
 void gulosa(char arquivo[]){
     int x, y;
-    int *vetVerifica;
+    //int *vetVerifica;
     char valor[10];
     int melhorSol;
     char *solucaoVertice;
@@ -39,15 +40,17 @@ void gulosa(char arquivo[]){
     i = retI();
     j = retJ();
     vetVerifica = malloc(sizeof(int)*i);
-    vetVerifica = zerarVet(vetVerifica);
-
+    zerarVet();
+    printf("Encontrando soluções...\n");
+    printf("------------------------------------\n");
     //solucao = (struct _solucao*)malloc(sizeof(struct _solucao)*i);
     //for(x=0;x<i;x++)
         //solucao[x].stringSolucao = malloc(sizeof(char)*5*i);
 
 
     for(x=0; x<i; x++){
-        vetVerifica = zerarVet(vetVerifica);
+        printf("Foi for!\n");
+        zerarVet();
         soma = 0;
         printf("Solução partindo de %i: %i", x, x);
         //itoa(x,valor,10);
@@ -55,7 +58,7 @@ void gulosa(char arquivo[]){
         strcpy(solucaoVertice, valor);
         strcat(solucaoVertice, " ");
         vetVerifica[x] = 1;
-        execGulosa(x, vetVerifica, x, solucaoVertice);
+        execGulosa(x, x, solucaoVertice);
         //printf("\tSOMA: %i", soma);
         printf("\n");
     }
@@ -73,28 +76,28 @@ void gulosa(char arquivo[]){
     system(EXIT_SUCCESS);
 }
 
-void execGulosa(int atual, int vetVerif[], int valSolucao, char solucaoVertice[]){
+void execGulosa(int atual, int valSolucao, char solucaoVertice[]){
     int x;
     int menorPos, menorVal=0;
-    int statusInicial = 0;
+    int statusInicial = 0;      // zero indica que é a primeira vez que está passando
     int status;
     int statusSolucao=0;
     char valor[10];
     for(x=0;x<j;x++){
         if(atual != x){
             if(matriz[atual][x] != 0){
-                if(statusInicial == 0){
-                    status = verificaSolucao(vetVerif, x);
-                    if(status == 1){
+                if(statusInicial == 0){     // mostra que é para colocar o primeiro elemento possível (verificado) nas variáveis
+                    status = verificaSolucao(x);
+                    if(status == 1){    // se o elemento estiver inviável, só passa adiante
                         menorVal = matriz[atual][x];
                         menorPos = x;
-                        status = 1;
+                        //status = 0;
                         statusInicial = 1;
                         statusSolucao = 1;
                     }
                 }else{
                     if(matriz[atual][x] < menorVal){
-                        status = verificaSolucao(vetVerif, x);
+                        status = verificaSolucao(x);
                         if(status == 1){
                             menorVal = matriz[atual][x];
                             menorPos = x;
@@ -105,50 +108,51 @@ void execGulosa(int atual, int vetVerif[], int valSolucao, char solucaoVertice[]
         }
     }
     soma = soma + menorVal;
-    vetVerif[menorPos] = 1;
+    vetVerifica[menorPos] = 1;
     sprintf(valor, "%i", menorPos);
     strcat(solucaoVertice, valor);
     strcat(solucaoVertice, " ");
     //solucao[valSolucao].soma = soma;
-    printf(" %i", menorPos);         // PROBLEMA, VER COMMIT
-    if(statusSolucao == 1)       // encontrou uma solucao viável para o vertice atual
-        if(verificaFinal(vetVerif) == 0)  // nao acabou
-            execGulosa(menorPos, vetVerif, valSolucao, solucaoVertice);
-        else{
+            // PROBLEMA, VER COMMIT
+    if(statusSolucao == 1){       // encontrou uma solucao viável para o vertice atual
+        printf(" %i", menorPos);
+        if(verificaFinal() == 0)  // nao acabou
+            execGulosa(menorPos, valSolucao, solucaoVertice);
+        else{       // acabou e salva a solucao
             if(nSolucoes == 0)
                 solucao = (struct _solucao*)malloc(sizeof(struct _solucao)*(nSolucoes+1));
             else
                 solucao = realloc(solucao, sizeof(struct _solucao)*(nSolucoes+1));
-            solucao[nSolucoes].stringSolucao = malloc(sizeof(char)*i*5);
+            solucao[nSolucoes].stringSolucao = malloc(sizeof(char)*i*4);
             strcpy(solucao[nSolucoes].stringSolucao, solucaoVertice);
             solucao[nSolucoes].soma = soma;
             nSolucoes++;
             printf("\tSOLUCAO!");
         }
-    else
+    }else
         printf("\tsem solução!");
 }
 
-int verificaSolucao(int vetVerif[], int prox){
-    if(vetVerif[prox] == 0)
+int verificaSolucao(int prox){
+    if(vetVerifica[prox] == 0)
         return 1;   // não foi acessado ainda, pode ser solução
     else
         return 0;   // já foi acessado, não é viável para solução
 }
 
 
-int *zerarVet(int vetVerif[]){
+void zerarVet(){
     int x;
+    printf("Entrou zerar");
     for(x=0; x<i; x++)
-        vetVerif[x] = 0;
+        vetVerifica[x] = 0;
     soma = 0;
-    return vetVerif;
 }
 
-int verificaFinal(int vetVerif[]){
+int verificaFinal(){
     int x, status=1;
     for(x=0;x<i;x++)
-        if(vetVerif[x] == 0)   // nao finalizou
+        if(vetVerifica[x] == 0)   // nao finalizou
             status = 0;
     return status;
 }

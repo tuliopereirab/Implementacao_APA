@@ -38,7 +38,7 @@ int **lerArquivo(char arquivo[]){
     fclose(arq);
     arq = fopen(arquivo, "r");
     // ------------------------------------
-
+    printf("Matriz [%i][%i] encontrada...\n", i, j);
 
     matriz = (int**)malloc(sizeof(int*)*i);
     for(x=0; x<i; x++){
