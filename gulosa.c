@@ -38,12 +38,12 @@ void gulosa(char arquivo[]){
     matriz = lerArquivo(arquivo);
     i = retI();
     j = retJ();
-    solucaoVertice = malloc(sizeof(char)*5*i);
+    solucaoVertice = malloc(sizeof(char)*4*i);
     vetVerifica = malloc(sizeof(int)*i);
     printf("Encontrando soluções...\n");
     printf("------------------------------------\n");
 
-    for(x=0; x<i; x++){
+    for(x=0; x<i; x++){     // irá chamar execGulosa n vezes (sendo n o numero de vertices) - isso indica que vai ser tentado encontrar um caminho partindo de cada uma das soluções
         vetVerifica = zerarVet(vetVerifica);
         printf("Solução partindo de %i: %i", x, x);
         sprintf(valor, "%i", x);
@@ -56,8 +56,8 @@ void gulosa(char arquivo[]){
     printf("------------------------------------\n");
     printf("Numero de soluções: %i\n", nSolucoes);
     if(nSolucoes != 0){
-        melhorSol = verifMelhorSolucao();
-        mostrarSolucoes();
+        melhorSol = verifMelhorSolucao();     // receberá a posição no vetor da melhor solução
+        mostrarSolucoes();      // mostra todas as soluções encontradas
         printf("--------------------\n");
         printf("MELHOR SOLUCAO: \n");
         printf("%s\nSOMA: %i\n", solucao[melhorSol].stringSolucao, solucao[melhorSol].soma);
@@ -76,20 +76,19 @@ void execGulosa(int atual, int vetVerifica[], int valSolucao, char solucaoVertic
     char valor[10];
     for(x=0;x<j;x++){
         if(atual != x){
-            if(matriz[atual][x] != 0){
+            if(matriz[atual][x] != 0){     // caso seja verdade, indica que existe uma ligação entre o vertice atual e o vertice X
                 if(statusInicial == 0){     // mostra que é para colocar o primeiro elemento possível (verificado) nas variáveis
                     status = verificaSolucao(vetVerifica, x);
                     if(status == 1){    // se o elemento estiver inviável, só passa adiante
                         menorVal = matriz[atual][x];
                         menorPos = x;
-                        //status = 0;
                         statusInicial = 1;
                         statusSolucao = 1;
                     }
-                }else{
+                }else{       // indica que não está mais em estado inicial e que as variáveis menorVal e menorPos já possuem um valor para serem comparadas
                     if(matriz[atual][x] < menorVal){
                         status = verificaSolucao(vetVerifica, x);
-                        if(status == 1){
+                        if(status == 1){         // verifica que a solução X para o vertice atual é aceita (X ainda não foi acessado)
                             menorVal = matriz[atual][x];
                             menorPos = x;
                         }
@@ -105,12 +104,12 @@ void execGulosa(int atual, int vetVerifica[], int valSolucao, char solucaoVertic
     strcat(solucaoVertice, " ");
     if(statusSolucao == 1){       // encontrou uma solucao viável para o vertice atual
         printf(" %i", menorPos);
-        if(verificaFinal(vetVerifica) == 0)  // nao acabou
+        if(verificaFinal(vetVerifica) == 0)  // nao acabou (ainda existem vértices que não foram acessados)
             execGulosa(menorPos, vetVerifica, valSolucao, solucaoVertice);
         else{       // acabou e salva a solucao
-            if(nSolucoes == 0)
+            if(nSolucoes == 0)       // se for a primeira solução, aloca a solução
                 solucao = (struct _solucao*)malloc(sizeof(struct _solucao)*(nSolucoes+1));
-            else
+            else    // se nao for a primeira, apenas aumenta o vetor de soluções em uma posição
                 solucao = realloc(solucao, sizeof(struct _solucao)*(nSolucoes+1));
             solucao[nSolucoes].stringSolucao = malloc(sizeof(char)*i*4);
             strcpy(solucao[nSolucoes].stringSolucao, solucaoVertice);
@@ -142,11 +141,11 @@ int verificaFinal(int vetVerifica[]){
     int x, status=1;
     for(x=0;x<i;x++)
         if(vetVerifica[x] == 0)   // nao finalizou
-            status = 0;
+            status = 0;      // uma vez que status virou zero, indica que não terminou e esse será o valor retornado
     return status;
 }
 
-int verifMelhorSolucao(){
+int verifMelhorSolucao(){         // encontra a solução com valor de soma mais baixo e retorna posição
     int mSoma, mPos, init=0;
     int x;
     for(x=0; x<nSolucoes; x++){
