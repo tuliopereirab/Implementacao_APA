@@ -5,6 +5,7 @@
 struct _matrizCustos{
     char *passouPor;
     int custo;
+    int usado;
 };
 
 
@@ -15,11 +16,14 @@ int retJ();
 int **matriz;
 int i, j;
 struct _matrizCustos **matrizCustos;
+char *caminhoFinal;
+
 
 //int** matrizCustos;
 void gerarCustos(int ii, int k);
 void criaMatrizCustos();
 void imprimeMatriz();
+void imprimirMelhor(int final);
 
 void dinamica(char arquivo[]){
     int x, y;
@@ -36,6 +40,12 @@ void dinamica(char arquivo[]){
     }
 
     imprimeMatriz();
+
+    printf("\n\n");
+    strcpy(caminhoFinal, " ");
+    //imprimirMelhor(0);
+
+    //printf("caminho: %s\n", caminhoFinal);
 
     system(EXIT_SUCCESS);
 }
@@ -77,9 +87,10 @@ void criaMatrizCustos(){
         for(y=0;y<i;y++){
             matrizCustos[x][y].custo = 0;
             matrizCustos[x][y].passouPor = malloc(sizeof(char)*i*4);
+            matrizCustos[x][y].usado = 0;
         }
     }
-
+    caminhoFinal = malloc(sizeof(char)*i*4);
     printf("Matriz de custos criada...\n");
 }
 
@@ -87,7 +98,54 @@ void imprimeMatriz(){
     int x, y;
     for(x=0;x<i;x++){
         for(y=0;y<i;y++)
-            printf("%s ||", matrizCustos[x][y].passouPor);
+            printf("%i ", matrizCustos[x][y].custo);
+            //printf("%s ||", matrizCustos[x][y].passouPor);
         printf("\n");
     }
+}
+
+
+void imprimirMelhor(int final){
+    int x, y;
+    int statusFinal = 1;
+    int menorVal=-1;
+    int menorI=-1;
+    int menorJ=-1;
+    if(final == 0)
+        for(x=0;x<i;x++){
+            printf("X= %i\n", x);
+            if(x+1<i){
+                for(y=x+1; y<i; y++){
+                    printf("y = %i\n", y);
+                    if(menorVal == -1){
+                        if(matrizCustos[x][y].usado == 0){
+                            printf("Menor val!\n");
+                            menorVal = matrizCustos[x][y].custo;
+                            menorI = x;
+                            menorJ = y;
+                            statusFinal = 0;
+                        }
+                    }else{
+                        if(matrizCustos[x][y].custo < menorVal){
+                            printf("Achou menor!\n");
+                            if(matrizCustos[x][y].usado == 0){
+                                printf("Usou!\n");
+                                menorVal = matrizCustos[x][y].custo;
+                                menorI = x;
+                                menorJ = y;
+                                statusFinal = 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        strcat(caminhoFinal, matrizCustos[menorI][menorJ].passouPor);
+        strcat(caminhoFinal, " ");
+        matrizCustos[menorI][menorJ].usado = 1;
+        if(final == 0){
+            printf("Novamente!: %i\n", statusFinal);
+            imprimirMelhor(statusFinal);
+        }
+
 }
