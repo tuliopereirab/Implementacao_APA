@@ -3,8 +3,8 @@
 
 void ajuda(){
     printf("LISTA DE COMANDOS: \n");
-    printf("* GERAR ARQUIVO: \n\t- './Viajante -g <valor_i> <valor_j> <nome_arquivo>'\n");
-    printf("\t- './Viajante --gerar <valor_i> <valor_j> <nome_arquivo>'\n");
+    printf("* GERAR ARQUIVO: \n\t- './Viajante -g <valor_i> <nome_arquivo>'\n");
+    printf("\t- './Viajante --gerar <valor_i> <nome_arquivo>'\n");
     printf("* SOLUCIONAR 'Caixeiro Viajante': \n\t- './Viajante -s <solucao***> <nome_arquivo>'\n");
     printf("\t- './Viajante --soluciona <solucao***> <nome_arquivo>'\n");
     printf("\n---------------------------\n");
