@@ -6,6 +6,9 @@ struct _matrizCustos{
     char *passouPor;
     int custo;
     int usado;
+    int numVertices;
+    float custoBeneficio;
+    int status;      // -1- não pode ser usado (abaixo da diagonal principal); 0- ainda não foi utilizado;  1- já foi utilizado
 };
 
 
@@ -24,6 +27,7 @@ void gerarCustos(int ii, int k);
 void criaMatrizCustos();
 void imprimeMatriz();
 void imprimirMelhor(int final);
+void contadorVertices();
 
 void dinamica(char arquivo[]){
     int x, y;
@@ -39,6 +43,7 @@ void dinamica(char arquivo[]){
         }
     }
 
+    contadorVertices();
     imprimeMatriz();
 
     printf("\n\n");
@@ -98,7 +103,28 @@ void imprimeMatriz(){
     int x, y;
     for(x=0;x<i;x++){
         for(y=0;y<i;y++)
-            printf("%i ", matrizCustos[x][y].custo);
+            printf("%i\t", matrizCustos[x][y].custo);
+            //printf("%s ||", matrizCustos[x][y].passouPor);
+        printf("\n");
+    }
+    printf("\n--------------------------- VERTICES PASSADOS ---------------------------\n");
+    for(x=0;x<i;x++){
+        for(y=0;y<i;y++)
+            printf("%s\t", matrizCustos[x][y].passouPor);
+            //printf("%s ||", matrizCustos[x][y].passouPor);
+        printf("\n");
+    }
+    printf("\n--------------------------- CUSTO custoBeneficio ---------------------------\n");
+    for(x=0;x<i;x++){
+        for(y=0;y<i;y++)
+            printf("%.2f\t", matrizCustos[x][y].custoBeneficio);
+            //printf("%s ||", matrizCustos[x][y].passouPor);
+        printf("\n");
+    }
+    printf("\n--------------------------- NUM VERTICES ---------------------------\n");
+    for(x=0;x<i;x++){
+        for(y=0;y<i;y++)
+            printf("%i\t", matrizCustos[x][y].status);
             //printf("%s ||", matrizCustos[x][y].passouPor);
         printf("\n");
     }
@@ -148,4 +174,27 @@ void imprimirMelhor(int final){
             imprimirMelhor(statusFinal);
         }
 
+}
+
+void contadorVertices(){
+    int x, y, z;
+    for(x=0;x<i;x++){
+        for(y=0;y<j;y++){
+            z=0;
+            matrizCustos[x][y].numVertices = 0;
+            while(matrizCustos[x][y].passouPor[z] != '\0'){
+                if(matrizCustos[x][y].passouPor[z] == ' ')
+                    matrizCustos[x][y].numVertices++;
+                z++;
+            }
+            if((y < x) || (x == y)){
+                matrizCustos[x][y].numVertices = 0;
+                matrizCustos[x][y].status = -1;
+            }else{
+                matrizCustos[x][y].numVertices++;
+                matrizCustos[x][y].custoBeneficio = (float)matrizCustos[x][y].custo / (float)matrizCustos[x][y].numVertices;
+                matrizCustos[x][y].status = 0;
+            }
+        }
+    }
 }
