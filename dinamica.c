@@ -200,7 +200,7 @@ void contadorVertices(){
                     matrizCustos[x][y].numVertices++;
                 z++;
             }
-            if((y < x) || (x == y)){
+            if((y < x) || (x == y) || y == (x+1)){
                 matrizCustos[x][y].numVertices = 0;
                 matrizCustos[x][y].status = -1;
             }else{
@@ -277,7 +277,7 @@ void melhorCaminho(int inicio){
                 }
             }
         }
-        if((menorX != -1) && (menorY != -1)){
+        if((menorX1 != -1) && (menorY2 != -1)){
             if(matrizCustos[menorX1][menorY1].custoBeneficio < matrizCustos[menorX2][menorY2].custoBeneficio){
                 menorY = menorY1;
                 menorX = menorX1;
@@ -285,10 +285,10 @@ void melhorCaminho(int inicio){
                 menorY = menorY2;
                 menorX = menorX2;
             }
-        }else if((menorX == -1) && (menorY != -1)){
+        }else if((menorX1 == -1) && (menorY2 != -1)){
             menorY = menorY2;
             menorX = menorX2;
-        }else if((menorY == -1) && (menorX != -1)){
+        }else if((menorY2 == -1) && (menorX1 != -1)){
             menorY = menorY1;
             menorX = menorX1;
         }else{
@@ -304,7 +304,7 @@ void melhorCaminho(int inicio){
     if(inicio == 1){
         for(x=0;x<numVertices;x++){
             vertice = verificarVerticesDin(matrizCustos[menorX][menorY].passouPor, x, numVertices);
-            if(vetPassados[vertice] == 0){
+            if((vetPassados[vertice] == 0)){
                 sprintf(auxVertice, " %i", vertice);
                 strcat(aux, auxVertice);
             }else{
@@ -314,11 +314,14 @@ void melhorCaminho(int inicio){
             }
         }
     }else{
-        for(x=1;x<numVertices;x++){
+        for(x=0;x<numVertices;x++){
             vertice = verificarVerticesDin(matrizCustos[menorX][menorY].passouPor, x, numVertices);
-            if(vetPassados[vertice] == 0){
-                sprintf(auxVertice, " %i", vertice);
-                strcat(aux, auxVertice);
+            printf("Status Vertice: %i\nvertice: %i\n", vetPassados[vertice], vertice);
+            if((vetPassados[vertice] == 0) || (vertice == verticeUsado)){
+                if(vertice != verticeUsado){
+                    sprintf(auxVertice, " %i", vertice);
+                    strcat(aux, auxVertice);
+                }
             }else{
                 free(aux);
                 melhorCaminho(0);
@@ -334,13 +337,19 @@ void melhorCaminho(int inicio){
         vetPassados[vertice] = 1;
     }
     free(aux);
+    // for(x=0;x<i;x++){
+    //     for(y=0;y<i;y++)
+    //         printf("%i\t", matrizCustos[x][y].usado);
+    //         //printf("%s ||", matrizCustos[x][y].passouPor);
+    //     printf("\n");
+    // }
     melhorCaminho(0);
 }
 
 int verifFinal(){
     int x, status = 0;      // 0-> acabou; 1-> ainda não acabou
     for(x=0;x<i;x++){
-        if(vetPassados[i] == 0) status = 1;
+        if(vetPassados[x] == 0) status = 1;
     }
     return status;
 }
