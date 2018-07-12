@@ -27,10 +27,10 @@ void gerar(char entI[], char entJ[], char arquivo[]){
                 matriz[x][y] = 0;
             }else{
                 matriz[x][y] = rand() % 500;
+                while(matriz[x][y]<200) matriz[x][y] = rand() % 500;
                 matriz[y][x] = matriz[x][y];
                 //statusZero = rand() % 2;
                 statusZero = 0;
-
                 if(statusZero == 1){
                     matriz[x][y] = 0;
                     matriz[y][x] = 0;
