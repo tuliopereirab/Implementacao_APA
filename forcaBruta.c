@@ -113,8 +113,10 @@ int obterCustoCaminho(List *list) {
     custoAteAgora: mantém o custo do caminho percorrido.
 */
 void forcaBrutaBusca(int verticeAtual, List *caminhoAteAgora, List *custoAteAgora) {
-    int x = 0;
-    if(verticeAtual == VerticeDestino) {
+
+    // "&& listCount(caminhoAteAgora) == J" -> Caixeiro viajante tem que passar por todos os vértices
+    // para o caminho ser aceito.
+    if(verticeAtual == VerticeDestino && listCount(caminhoAteAgora) == J) {
         // Adiciona caminho na lista que guarda os caminhos possíveis.
         listInsert(Caminhos, listCloneInt(caminhoAteAgora));
 
@@ -130,6 +132,7 @@ void forcaBrutaBusca(int verticeAtual, List *caminhoAteAgora, List *custoAteAgor
             MelhorCaminho = listCloneInt(caminhoAteAgora);
         }
     } else {
+        int x = 0;
         for(x = 0; x < J; x++) {
             // Só irá visitar o vértice se esse vértice ainda não foi visitado e se o custo até ele é > 0.
             // Vértice com custo = 0 é considerado sem aresta de ligação.
