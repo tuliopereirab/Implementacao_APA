@@ -60,7 +60,6 @@ void dinamica(char arquivo[]){
 
     printf("Encontrando melhor caminho...\n");
     retorno = melhorCaminho(1);
-    for(x=0;x<i;x++) printf("%i ", vetPassados[x]);
     while((verifFinal() != 0) && (retorno != 0))  // verifFinal: 0-> acabou!; 1-> segue            retorno: 0-> acabou, 1-> segue
         retorno = melhorCaminho(0);
 

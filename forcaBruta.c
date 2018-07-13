@@ -10,6 +10,7 @@ int retJ();
 
 //INTERNAS
 void forcaBrutaBusca(int verticeAtual, List *caminhoAteAgora, List *custoAteAgora);
+int aviso();
 
 //GLOBAIS
 int **Matriz;
@@ -23,10 +24,22 @@ int MelhorCaminhoCusto = -1;
 */
 void forcaBruta(char arquivo[]){
     Matriz = lerArquivo(arquivo);
+    int h;
+    int statusAviso;
     I = retI();
     J = retJ();
 
     printf("Iniciando solucao \"Forca Bruta\" | matriz: %d x %d | vertice inicial: %d | vertice final: %d.\n\n", I, J, 0, J - 1);
+
+    if(I > 13) statusAviso = aviso();
+    else statusAviso = 0;   // indica que pode continuar executando sem problemas
+
+    if(statusAviso == 1){
+        printf("Finalizando...\n");
+        system(EXIT_SUCCESS);
+    }
+
+    printf("Iniciando execução...");
 
     List *caminhoAteAgora = listCreate();
     List *custoAteAgora = listCreate();
@@ -153,4 +166,21 @@ void forcaBrutaBusca(int verticeAtual, List *caminhoAteAgora, List *custoAteAgor
 
     listDestroy(caminhoAteAgora);
     listDestroy(custoAteAgora);
+}
+
+int aviso(){
+    int x, status;
+    char c;
+    printf("\n--------------------- AVISO---------------------\n");
+    printf("Você está tentando executar a solução de uma matriz %ix%i por FORÇA BRUTA!\n", I, I);
+    printf("Uma matriz de tal normalmente trava os computadores.\n");
+    printf("Por favor, confirme se quer continuar a execução [y/n] -> ");
+    scanf("%c", &c);
+    while(c != 'y' && c != 'n'){
+        printf("\nErro! Digite 'y' para sim ou 'n' para não.\n");
+        printf("Por favor, confirme se quer continuar a execução [y/n] -> ");
+        scanf("%c", &c);
+    }
+    if(c == 'n') return 1;
+    else return 0;
 }

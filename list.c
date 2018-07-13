@@ -1,4 +1,4 @@
-#include "list.h";
+#include "list.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -151,4 +151,3 @@ int listCount(List *list) {
 
     return x;
 }
-
