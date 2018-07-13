@@ -5,7 +5,7 @@
 
 
 
-// Funções de auxílio para converter int to void* e vice-versa.
+// FunÃ§Ãµes de auxÃ­lio para converter int to void* e vice-versa.
 void *intToVoid(int value) {
     int *v = calloc(1, sizeof(int));
     *v = value;
@@ -57,7 +57,7 @@ void listInsert(List *list, void *value) {
     list->last = next;
 }
 
-// Pega um elemento da lista pelo índice, retorna null se o índice não existe.
+// Pega um elemento da lista pelo Ã­ndice, retorna null se o Ã­ndice nÃ£o existe.
 void *listGet(List *list, int index) {
     Node *node = list->root;
     int _index = -1;
@@ -74,7 +74,7 @@ void *listGet(List *list, int index) {
     return NULL;
 }
 
-// Encontra um elemento do tipo int na lista, retornando seu índice ou -1 se não achou.
+// Encontra um elemento do tipo int na lista, retornando seu Ã­ndice ou -1 se nÃ£o achou.
 int listFindInt(List *list, int value) {
     Node *node = list->root;
     int index = -1;
@@ -127,7 +127,7 @@ void listDestroy(List *list) {
     free(list);
 }
 
-// 1 se a lista está vazia ou não existe, 0 caso contratio.
+// 1 se a lista estÃ¡ vazia ou nÃ£o existe, 0 caso contratio.
 int listIsEmpty(List *list) {
     if(!list)
         return 1;
@@ -138,4 +138,17 @@ int listIsEmpty(List *list) {
     return 0;
 }
 
+// Conta o nÃºmero de elementos na lista.
+int listCount(List *list) {
+    int x = 0;
+    Node *node = list->root;
+
+    while(node) {
+        x++;
+
+        node = node->next;
+    }
+
+    return x;
+}
 
