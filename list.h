@@ -19,7 +19,7 @@ struct _List {
     Node *last;
 };
 
-// FunÁıes de auxÌlio para converter int to void* e vice-versa.
+// Fun√ß√µes de aux√≠lio para converter int to void* e vice-versa.
 void *intToVoid(int value);
 
 // Cria uma nova lista.
@@ -31,10 +31,10 @@ List *listCloneInt(List *source);
 // Insere um valor na lista.
 void listInsert(List *list, void *value);
 
-// Pega um elemento da lista pelo Ìndice, retorna null se o Ìndice n„o existe.
+// Pega um elemento da lista pelo √≠ndice, retorna null se o √≠ndice n√£o existe.
 void *listGet(List *list, int index);
 
-// Encontra um elemento do tipo int na lista, retornando seu Ìndice ou -1 se n„o achou.
+// Encontra um elemento do tipo int na lista, retornando seu √≠ndice ou -1 se n√£o achou.
 int listFindInt(List *list, int value);
 
 // Limpa a lista.
@@ -43,7 +43,10 @@ void listClear(List *list);
 // Libera a lista com todos os seus valores.
 void listDestroy(List *list);
 
-// 1 se a lista est· vazia ou n„o existe, 0 caso contratio.
+// 1 se a lista est√° vazia ou n√£o existe, 0 caso contratio.
 int listIsEmpty(List *list);
+
+// Conta o n√∫mero de elementos na lista.
+int listCount(List *list);
 
 #endif // LIST_H_INCLUDED
